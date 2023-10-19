@@ -1,6 +1,7 @@
 import { Button, Flex, Text, Space } from "@mantine/core";
 import React from "react";
 import Image from "next/image";
+import ChatModal from "../../../../components/ChatModal";
 
 const Product = () => {
   return (
@@ -51,7 +52,8 @@ const Product = () => {
           </Flex>
 
           <Space h={"2rem"}> </Space>
-          <Button bg={"maroon"}> Chat with the owner</Button>
+          {/* <Button bg={"maroon"}> Chat with the owner</Button> */}
+          <ChatModal />
         </Flex>
       </Flex>
     </Flex>

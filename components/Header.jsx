@@ -1,19 +1,32 @@
 "use client";
 import Link from "next/link";
-import React from "react";
-import { Autocomplete, Drawer, Button, Flex, Text } from "@mantine/core";
+import React, { useState } from "react";
+import { Autocomplete, Drawer, Button, Flex, Text, Menu } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { auth } from "../firebase/firebase.config";
+import { SignOut } from "../firebase/auth/signout";
+import { onAuthStateChanged } from "firebase/auth";
 
 const Header = () => {
+  const [authUser, setAuthUser] = useState(null);
+  onAuthStateChanged(auth, (user) => {
+    setAuthUser(user);
+  });
   return (
-    <Flex h={"10%"} w={"100%"} direction={"row"} bg={"gray"} align={"center"}>
+    <Flex
+      h={"10%"}
+      w={"100%"}
+      direction={"row"}
+      bg={"#8B85C1"}
+      align={"center"}
+    >
       <Flex w={"8%"} pl={"1rem"}>
         <Burger />
       </Flex>
       <Flex w={"92%"} justify={"space-between"} align={"center"}>
-        <Link href="#" className="text-3xl font-bold text-red-900">
-          <Text fs="italic" size="2rem">
+        <Link href="/" className="text-3xl font-bold ">
+          <Text size="3rem" c={"#210B2C"}>
             SellMart
           </Text>
         </Link>
@@ -22,18 +35,20 @@ const Header = () => {
           label="Search for products"
           placeholder="Search"
           data={["Chair", "Table", "Shirt", "Jeans"]}
+          size="lg"
         />
         <nav>
           <ul className="flex space-x-4 pr-4">
             <li>
-              <Link href="#" className="text-white hover:text-gray-200">
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link href="#" className="text-white hover:text-gray-200">
-                Login/SignUp
-              </Link>
+              {authUser ? (
+                <>
+                  <LogoutMenu />
+                </>
+              ) : (
+                <Link href="/signup" className="text-white hover:text-gray-200">
+                  Login/SignUp
+                </Link>
+              )}
             </li>
             <li>
               <Link href="#" className="text-white hover:text-gray-200">
@@ -70,6 +85,24 @@ function Burger() {
         <GiHamburgerMenu />
       </Button>
     </>
+  );
+}
+function LogoutMenu() {
+  const [opened, setOpened] = useState(false);
+  return (
+    <Menu opened={opened} onChange={setOpened}>
+      <Menu.Target>
+        <Button
+          bg={"#FAF9F6"}
+          c={"#FB5404"}
+        >{`${auth.currentUser.displayName}`}</Button>
+      </Menu.Target>
+      <Menu.Dropdown bg={"dark"}>
+        <Menu.Item bg={"dark"}>
+          <SignOut />
+        </Menu.Item>
+      </Menu.Dropdown>
+    </Menu>
   );
 }
 

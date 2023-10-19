@@ -40,7 +40,7 @@ const Checkout = () => {
             </Flex>
           </Flex>
           <Flex w={"30%"} direction={"column"} h={"100%"} gap={"lg"}>
-            <Flex w={"100%"} h="40%" bg={"#FAF9F6"}>
+            <Flex w={"100%"} h="40%" bg={"#FAF9F6"} direction={"column"}>
               <Flex
                 w={"100%"}
                 h={"26%"}
@@ -52,7 +52,25 @@ const Checkout = () => {
                   SUMMARY
                 </Text>
               </Flex>
+              <Flex
+                w={"100%"}
+                h={"74%"}
+                direction={"column"}
+                justify={"center"}
+                gap={"lg"}
+              >
+                <Text>SUBTOTAL:</Text>
+                <Text>SHIPPING AND HANDLING:</Text>
+                <Text>TAXES:</Text>
+                <Flex justify={"space-around"}>
+                  <Text size="2rem">TOTAL: </Text>
+                  <Text size="2rem" c={"#FB5404"}>
+                    $423.13
+                  </Text>
+                </Flex>
+              </Flex>
             </Flex>
+
             <Flex w={"100%"} h="30%" bg={"#FAF9F6"}>
               <Flex
                 w={"100%"}

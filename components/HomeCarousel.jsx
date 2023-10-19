@@ -14,8 +14,8 @@ const HomeCarousel = () => {
       slideGap={{ base: 0, sm: "xs" }}
       align="start"
       plugins={[autoplay.current]}
-      onMouseEnter={autoplay.current.stop}
-      onMouseLeave={autoplay.current.reset}
+      // onMouseEnter={autoplay.current.stop}
+      // onMouseLeave={autoplay.current.reset}
       py={"sm"}
       loop
     >
@@ -24,6 +24,7 @@ const HomeCarousel = () => {
           src={"https://picsum.photos/250/350"}
           width={1080}
           height={400}
+          alt="pic"
         ></Image>
       </Carousel.Slide>
       <Carousel.Slide>
@@ -31,6 +32,7 @@ const HomeCarousel = () => {
           src={"https://picsum.photos/350/450"}
           width={1080}
           height={400}
+          alt="pic2"
         ></Image>
       </Carousel.Slide>
       <Carousel.Slide>
@@ -38,9 +40,9 @@ const HomeCarousel = () => {
           src={"https://picsum.photos/360/460"}
           width={1080}
           height={400}
+          alt="pic3"
         ></Image>
       </Carousel.Slide>
-      {/* ...other slides */}
     </Carousel>
   );
 };

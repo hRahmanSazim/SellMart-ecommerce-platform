@@ -1,6 +1,5 @@
-"use client";
 import React from "react";
-import GoogleButton from "react-google-button";
+// import GoogleButton from "react-google-button";
 import { auth } from "../firebase/firebase.config";
 import { provider } from "../firebase/firebase.config";
 import {
@@ -8,7 +7,9 @@ import {
   GoogleAuthProvider,
   signInWithRedirect,
 } from "firebase/auth";
+import { FcGoogle } from "react-icons/fc";
 import { useRouter } from "next/navigation";
+import { Button } from "@mantine/core";
 const GoogleSignIn = () => {
   const router = useRouter();
   const googleSignIn = () => {
@@ -37,9 +38,9 @@ const GoogleSignIn = () => {
     // signInWithRedirect(auth, provider);
   };
   return (
-    <div>
-      <GoogleButton onClick={googleSignIn} />
-    </div>
+    <Button onClick={googleSignIn}>
+      Sign in with <FcGoogle size={"1.5rem"} />
+    </Button>
   );
 };
 

@@ -26,7 +26,10 @@ const Header = () => {
       </Flex>
       <Flex w={"92%"} justify={"space-between"} align={"center"}>
         <Link href="/" className="text-3xl font-bold ">
-          <Text size="3rem" c={"#210B2C"}>
+          <Text
+            size="3rem"
+            // c={"#210B2C"}
+          >
             SellMart
           </Text>
         </Link>

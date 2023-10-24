@@ -1,21 +1,17 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../firebase.config";
 
-export default async function signUp(email, password) {
-  let result = null;
-
-  result = createUserWithEmailAndPassword(auth, email, password)
+export default function signUp(email, password, fullname) {
+  // let result = null;
+  createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
-      // Signed up
-      const user = userCredential.user;
-      console.log(user);
-      // ...
+      updateProfile(auth.currentUser, {
+        displayName: fullname,
+      });
     })
     .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      // ..
+      // const errorCode = error.code;
+      // const errorMessage = error.message;
+      console.error(error);
     });
-
-  return { result };
 }

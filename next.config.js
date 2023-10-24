@@ -13,6 +13,7 @@ const nextConfig = {
       "plus.unsplash.com",
       "www.target.com",
       "upload.wikimedia.org",
+      "www.gravatar.com",
     ],
     disableStaticImages: true,
   },

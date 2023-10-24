@@ -15,13 +15,14 @@ import {
 import { db } from "../../../firebase/firebase.config";
 import GoogleSignIn from "../../../components/GoogleSignIn";
 import { auth } from "../../../firebase/firebase.config";
-import { onAuthStateChanged } from "firebase/auth";
-export default function Signup() {
-  const [authUser, setAuthUser] = useState(null);
+import { updateProfile } from "firebase/auth";
 
-  onAuthStateChanged(auth, (user) => {
-    setAuthUser(user);
-  });
+export default function Signup() {
+  // const [authUser, setAuthUser] = useState(null);
+
+  // onAuthStateChanged(auth, (user) => {
+  //   setAuthUser(user);
+  // });
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -30,10 +31,12 @@ export default function Signup() {
   const usersCollectionRef = collection(db, "users");
   const router = useRouter();
   const handleForm = async (event) => {
+    const fullname = `${firstName} ${lastName}`;
+
     try {
       event.preventDefault();
-      const { result } = await signUp(email, password);
-      // console.log(user);
+      // const { result } = await signUp(email, password, fullname);
+      signUp(email, password, fullname);
       createUser();
     } catch (error) {
       alert(error);
@@ -58,23 +61,60 @@ export default function Signup() {
       },
       { merge: true }
     );
-    router.push("/");
+
+    // router.push("/");
   };
 
-  const [users, setUsers] = useState([]);
-  useEffect(() => {
-    const getUsers = async () => {
-      const data = await getDocs(usersCollectionRef);
+  // user
+  //   .updateProfile({
+  //     displayName: displayName,
+  //   })
+  //   .then(() => {
+  //     // Update successful.
+  //     // You can also save the user's other details to your database at this point.
+  //   })
+  //   .catch((error) => {
+  //     // An error occurred.
+  //   });
 
-      setUsers(data.docs.map((doc) => ({ ...doc.data() })));
-    };
-    getUsers();
-  }, []);
+  // const user = auth.currentUser;
+  // const displayName = `${firstName} ${lastName}`;
+  // user
+  //   .updateProfile({
+  //     displayName: displayName,
+  //   })
+  //   .then(() => {
+  //     // Update successful.
+  //     // You can also save the user's other details to your database at this point.
+  //   })
+  //   .catch((error) => {
+  //     // An error occurred.
+  //   });
+  // const [users, setUsers] = useState([]);
+  // useEffect(() => {
+  //   const getUsers = async () => {
+  //     const data = await getDocs(usersCollectionRef);
 
+  //     setUsers(data.docs.map((doc) => ({ ...doc.data() })));
+  //   };
+  //   getUsers();
+  // }, []);
+
+  // updateProfile(auth.currentUser, {
+  //   displayName: displayName,
+  // })
+  //   .then(() => {
+  //     // Profile updated!
+  //     // ...
+  //   })
+  //   .catch((error) => {
+  //     // An error occurred
+  //     // ...
+  //   });
   return (
     <Flex mih={"100%"} justify="center" align="center" direction="row">
-      {authUser === null && (
-        <Paper shadow={"xl"} radius="lg" withBorder w={"auto"} p={"6rem"}>
+      <Paper shadow={"xl"} radius="lg" withBorder w={"auto"} p={"6rem"}>
+        {auth.currentUser === null ? (
           <form onSubmit={handleForm}>
             <Flex direction={"column"} gap="md" justify={"center"} w={"25rem"}>
               <TextInput
@@ -129,7 +169,7 @@ export default function Signup() {
               />
 
               <Flex direction="column" gap={"md"} pt={"lg"}>
-                <Button type="submit" size="lg">
+                <Button type="submit" size="lg" bg={"#8B85C1"} c={"#1F271B"}>
                   Sign up
                 </Button>
 
@@ -137,7 +177,7 @@ export default function Signup() {
                   <Text size="xl" pt={"0.3rem"}>
                     Already registered? Login here:
                   </Text>
-                  <Button size="md">
+                  <Button size="md" bg={"#ffcfd2"} c={"#370617"}>
                     <Link href={"/signin"}>Sign in</Link>
                   </Button>
                 </Flex>
@@ -147,10 +187,7 @@ export default function Signup() {
               </Flex>
             </Flex>
           </form>
-        </Paper>
-      )}
-      {authUser !== null && (
-        <Paper shadow={"xl"} radius="lg" withBorder w={"auto"} p={"6rem"}>
+        ) : (
           <Flex
             justify={"center"}
             direction={"column"}
@@ -165,8 +202,8 @@ export default function Signup() {
               </Button>
             </Link>
           </Flex>
-        </Paper>
-      )}
+        )}
+      </Paper>
     </Flex>
   );
 }

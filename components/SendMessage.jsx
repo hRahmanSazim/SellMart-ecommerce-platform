@@ -6,6 +6,12 @@ import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 const SendMessage = ({ scroll }) => {
   const [input, setInput] = useState("");
   const sendMessage = async (e) => {
+    if (auth.currentUser === null) {
+      alert(
+        "You are not currently logged in. Please login to chat with the product owner"
+      );
+      return;
+    }
     e.preventDefault();
     if (input === "") {
       alert("Please enter a valid message!");
@@ -19,7 +25,7 @@ const SendMessage = ({ scroll }) => {
       createdAt: serverTimestamp(),
     });
     setInput("");
-    scroll.current.scrollIntoView({ behavior: "smooth" });
+    // scroll.current.scrollIntoView({ behavior: "smooth" });
   };
   return (
     <form onSubmit={sendMessage}>

@@ -3,6 +3,7 @@ import { Lato } from "next/font/google";
 import "@mantine/core/styles.css";
 import { MantineProvider, ColorSchemeScript } from "@mantine/core";
 import "@mantine/carousel/styles.css";
+
 // import Footer from "../../components/Footer";
 
 const lato = Lato({ subsets: ["latin"], weight: "700" });

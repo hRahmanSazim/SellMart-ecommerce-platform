@@ -65,7 +65,7 @@ const Products = () => {
         </Flex>
       </Flex>
       <Space h="xl" />
-      <SimpleGrid cols={4} spacing={64} verticalSpacing="xl">
+      <SimpleGrid cols={4} spacing={64} verticalSpacing="xl" h={200}>
         {products.map((product) => (
           <Product product={product}></Product>
         ))}

@@ -10,6 +10,8 @@ import {
 import { FcGoogle } from "react-icons/fc";
 import { useRouter } from "next/navigation";
 import { Button } from "@mantine/core";
+import { serverTimestamp, setDoc } from "firebase/firestore";
+import { db } from "../firebase/firebase.config";
 const GoogleSignIn = () => {
   const router = useRouter();
   const googleSignIn = () => {
@@ -20,9 +22,20 @@ const GoogleSignIn = () => {
         const token = credential.accessToken;
         // The signed-in user info.
         const user = result.user;
-        router.push("/");
 
-        // IdP data available using getAdditionalUserInfo(result)
+        const createUser = async () => {
+          await setDoc(doc(db, "users", user.uid), {
+            displayName: user.displayName,
+            email: user.email,
+            uid: user.uid,
+            avatar: `https://www.gravatar.com/avatar/${user.uid}?d=robohash`,
+            createdAt: serverTimestamp(),
+          });
+
+          // IdP data available using getAdditionalUserInfo(result)
+        };
+        createUser();
+        router.push("/");
         // ...
       })
       .catch((error) => {

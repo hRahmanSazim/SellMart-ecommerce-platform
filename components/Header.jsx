@@ -7,39 +7,66 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { auth } from "../firebase/firebase.config";
 import { SignOut } from "../firebase/auth/signout";
 import { onAuthStateChanged } from "firebase/auth";
+import { BsShop } from "react-icons/bs";
+import { MdShoppingCartCheckout } from "react-icons/md";
+import { TbShoppingBagSearch } from "react-icons/tb";
+import Dashboard from "./Dashboard";
 
 const Header = () => {
   const [authUser, setAuthUser] = useState(null);
+  const [searchItem, setSearchItem] = useState();
   onAuthStateChanged(auth, (user) => {
     setAuthUser(user);
   });
   return (
     <Flex
-      h={"10%"}
+      h={"15%"}
       w={"100%"}
       direction={"row"}
-      bg={"#8B85C1"}
+      // bg={"#8B85C1"}
+      // bg={"#FAF9F6"}
+      bg={"#f0f0f0"}
       align={"center"}
     >
-      <Flex w={"8%"} pl={"1rem"}>
-        <Burger />
+      <Flex w={"30%"} pl={"1rem"} align={"center"}>
+        <Flex pr={"xl"}>
+          <Burger />
+        </Flex>
+        {/* <Image */}
+        {/* // src={"https://i.ibb.co/yBcwJVk/logo1.png"} */}
+        {/* // // width={300}
+        // // height={200}
+        // // object-fit="contain" // fill={true} */}
+        {/* // ></Image> */}
+        <Flex gap={"sm"} align={"center"} justify={"center"}>
+          {/* <BsShop size={"15%"} /> */}
+          <MdShoppingCartCheckout size={"17%"} color="teal" />
+          <Link
+            href="/"
+            // className="text-3xl font-bold bg-gradient-to-r from-gray-600 via-purple-700 to-gray-600 inline-block text-transparent bg-clip-text"
+          >
+            <Text size="3rem" c={"#210B2C"}>
+              SellMart
+            </Text>
+          </Link>
+        </Flex>
       </Flex>
       <Flex w={"92%"} justify={"space-between"} align={"center"}>
-        <Link href="/" className="text-3xl font-bold ">
-          <Text
-            size="3rem"
-            // c={"#210B2C"}
-          >
-            SellMart
-          </Text>
-        </Link>
-
         <Autocomplete
-          label="Search for products"
-          placeholder="Search"
+          label=""
+          placeholder="Search for products"
           data={["Chair", "Table", "Shirt", "Jeans"]}
-          size="lg"
+          // size="lg"
+          w={"65%"}
+          // onChange={(val) => {
+          //   setSearchItem(val);
+          // }}
+          // value={searchItem}
+          // onOptionSubmit={}
         />
+        <Button bg={"coral"}>
+          <TbShoppingBagSearch size={"1.5rem"} />
+        </Button>
         <nav>
           <ul className="flex space-x-4 pr-4">
             <li>
@@ -48,18 +75,18 @@ const Header = () => {
                   <LogoutMenu />
                 </>
               ) : (
-                <Link href="/signup" className="text-white hover:text-gray-200">
+                <Link href="/signup" className="text-black hover:text-gray-700">
                   Login/SignUp
                 </Link>
               )}
             </li>
             <li>
-              <Link href="#" className="text-white hover:text-gray-200">
+              <Link href="#" className="text-black hover:text-gray-700">
                 About
               </Link>
             </li>
             <li>
-              <Link href="#" className="text-white hover:text-gray-200">
+              <Link href="#" className="text-black hover:text-gray-700">
                 Contact
               </Link>
             </li>
@@ -96,11 +123,15 @@ function LogoutMenu() {
     <Menu opened={opened} onChange={setOpened}>
       <Menu.Target>
         <Button
-          bg={"#FAF9F6"}
-          c={"#FB5404"}
+          bg={"black"}
+          // c={"#FB5404"}
+          c={"wheat"}
         >{`${auth.currentUser.displayName}`}</Button>
       </Menu.Target>
       <Menu.Dropdown bg={"dark"}>
+        <Menu.Item bg={"white"}>
+          <Dashboard />
+        </Menu.Item>
         <Menu.Item bg={"dark"}>
           <SignOut />
         </Menu.Item>

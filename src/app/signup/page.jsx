@@ -1,12 +1,11 @@
 "use client";
 import signUp from "../../../firebase/auth/signup";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { Flex, Paper, Text, Button, TextInput } from "@mantine/core";
 import {
   collection,
-  getDocs,
   addDoc,
   doc,
   setDoc,
@@ -15,7 +14,6 @@ import {
 import { db } from "../../../firebase/firebase.config";
 import GoogleSignIn from "../../../components/GoogleSignIn";
 import { auth } from "../../../firebase/firebase.config";
-import { updateProfile } from "firebase/auth";
 
 export default function Signup() {
   // const [authUser, setAuthUser] = useState(null);
@@ -31,8 +29,6 @@ export default function Signup() {
   const usersCollectionRef = collection(db, "users");
   const router = useRouter();
   const handleForm = async (event) => {
-    const fullname = `${firstName} ${lastName}`;
-
     try {
       event.preventDefault();
       // const { result } = await signUp(email, password, fullname);
@@ -43,26 +39,27 @@ export default function Signup() {
     }
   };
   const createUser = async () => {
+    const fullname = `${firstName} ${lastName}`;
+
     const docRef = await addDoc(usersCollectionRef, {
-      firstName: firstName,
-      lastName: lastName,
+      displayName: fullname,
       email: email,
-      UUID: "",
+      uid: "",
       avatar: "",
-      created_at: "",
+      createdAt: "",
     });
 
     await setDoc(
       doc(db, "users", docRef.id),
       {
-        UUID: docRef.id,
+        uid: docRef.id,
         avatar: `https://www.gravatar.com/avatar/${docRef.id}?d=robohash`,
-        created_at: serverTimestamp(),
+        createdAt: serverTimestamp(),
       },
       { merge: true }
     );
-
-    // router.push("/");
+    // router.refresh();
+    router.push("/");
   };
 
   // user

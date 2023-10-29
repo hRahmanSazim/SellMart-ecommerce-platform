@@ -1,5 +1,6 @@
 // import Image from "next/image";
 import Footer from "../../components/Footer";
+import Products from "./products/page";
 import Header from "../../components/Header";
 import HomeCarousel from "../../components/HomeCarousel";
 import { Flex, Container, Text } from "@mantine/core";
@@ -8,7 +9,7 @@ export default function Home() {
   return (
     <>
       <Header />
-      <Container fluid>
+      <Container fluid className="min-h-screen">
         <Flex h={"20%"}>
           <HomeCarousel />
         </Flex>
@@ -56,6 +57,7 @@ export default function Home() {
             </Flex>
           </Flex>
         </Flex>
+        <Products />
       </Container>
       {/* <Footer /> */}
     </>

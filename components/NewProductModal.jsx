@@ -16,6 +16,7 @@ import {
   doc,
   serverTimestamp,
   getDoc,
+  setDoc,
 } from "firebase/firestore";
 import { db } from "../firebase/firebase.config";
 import { useRouter } from "next/navigation";
@@ -58,6 +59,13 @@ export default function ProductModal({ params }) {
       category: category,
       userId: params,
     });
+    await setDoc(
+      doc(db, "Products", docRef.id),
+      {
+        UUID: docRef.id,
+      },
+      { merge: true }
+    );
     router.refresh();
   };
   return (

@@ -40,33 +40,35 @@ const Header = () => {
         {/* // ></Image> */}
         <Flex gap={"sm"} align={"center"} justify={"center"}>
           {/* <BsShop size={"15%"} /> */}
-          <MdShoppingCartCheckout size={"17%"} color="teal" />
+          <MdShoppingCartCheckout size={"16%"} color="coral" />
           <Link
             href="/"
             // className="text-3xl font-bold bg-gradient-to-r from-gray-600 via-purple-700 to-gray-600 inline-block text-transparent bg-clip-text"
           >
             <Text size="3rem" c={"#210B2C"}>
-              SellMart
+              $ellMart
             </Text>
           </Link>
         </Flex>
       </Flex>
       <Flex w={"92%"} justify={"space-between"} align={"center"}>
-        <Autocomplete
-          label=""
-          placeholder="Search for products"
-          data={["Chair", "Table", "Shirt", "Jeans"]}
-          // size="lg"
-          w={"65%"}
-          // onChange={(val) => {
-          //   setSearchItem(val);
-          // }}
-          // value={searchItem}
-          // onOptionSubmit={}
-        />
-        <Button bg={"coral"}>
-          <TbShoppingBagSearch size={"1.5rem"} />
-        </Button>
+        <Flex w={"92%"} gap={"sm"}>
+          <Autocomplete
+            label=""
+            placeholder="Search for products"
+            data={["Chair", "Table", "Shirt", "Jeans"]}
+            // size="lg"
+            w={"65%"}
+            // onChange={(val) => {
+            //   setSearchItem(val);
+            // }}
+            // value={searchItem}
+            // onOptionSubmit={s}
+          />
+          <Button bg={"coral"}>
+            <TbShoppingBagSearch size={"1.35rem"} />
+          </Button>
+        </Flex>
         <nav>
           <ul className="flex space-x-4 pr-4">
             <li>

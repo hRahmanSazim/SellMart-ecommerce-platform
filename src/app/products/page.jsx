@@ -52,7 +52,6 @@ const Products = () => {
   return (
     <Container style={{ width: "100%" }} pt={"xl"}>
       <Flex direction={"row"} w={"100%"} h={"10%"} gap={"xs"}>
-        <form></form>
         <Autocomplete
           data={[...products.map((product) => product.title)]}
           w={"50%"}
@@ -65,7 +64,7 @@ const Products = () => {
         </Flex>
       </Flex>
       <Space h="xl" />
-      <SimpleGrid cols={4} spacing={64} verticalSpacing="xl" h={200}>
+      <SimpleGrid cols={4} verticalSpacing="xl">
         {products.map((product) => (
           <Product product={product}></Product>
         ))}

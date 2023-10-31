@@ -15,6 +15,7 @@ const nextConfig = {
       "upload.wikimedia.org",
       "www.gravatar.com",
       "i.ibb.co",
+      "images.pexels.com",
     ],
     disableStaticImages: true,
   },

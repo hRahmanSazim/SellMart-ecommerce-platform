@@ -5,29 +5,29 @@ import Image from "next/image";
 
 const Product = ({ product }) => {
   return (
-    <Flex direction="column" w={"100%"} h="100%">
-      <Link style={{ color: "black" }} href={`/products/${product.id}`}>
+    <Flex direction="column" h={"100%"} bg={"#f5f3f4"}>
+      <Link style={{ color: "black" }} href={`/products/${product.uid}`}>
         <Image
-          height={200}
-          width={200}
+          // objectFit="contain"
+          alt="product_image"
+          height={500}
+          width={300}
           src={product.thumbnail}
-          alt="pics"
-          layout="fixed"
+          className="w-full h-80 object-cover"
         />
-        <Title order={5} size={"1.3rem"}>
+        <Title order={3}>
           {" "}
-          {product.title}{" "}
+          <Text c={"#7209b7"} fw={"bolder"} fz={"xl"}>
+            {product.title}
+          </Text>{" "}
         </Title>
-      </Link>
-      <Flex>
-        <Text truncate>{product.description}</Text>
-      </Flex>
-      <Flex direction={"column"} justify={"space-between"}>
+        <Text c={"#0a9396"}>{product.body}</Text>
+        <Text c={"#0077b6"}>Category: {product.category}</Text>
         <Flex direction="row" align="center" justify="space-between">
-          <Text>${product.Price}</Text>
-          <Button>Buy Now</Button>
+          <Text c={"#9a031e"}>$ {product.price}</Text>
+          <Button bg={"#3282B8"}>Buy Now</Button>
         </Flex>
-      </Flex>
+      </Link>
     </Flex>
   );
 };

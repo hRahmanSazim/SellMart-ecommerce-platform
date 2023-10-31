@@ -10,7 +10,7 @@ import {
 import { FcGoogle } from "react-icons/fc";
 import { useRouter } from "next/navigation";
 import { Button } from "@mantine/core";
-import { serverTimestamp, setDoc } from "firebase/firestore";
+import { serverTimestamp, setDoc, doc } from "firebase/firestore";
 import { db } from "../firebase/firebase.config";
 const GoogleSignIn = () => {
   const router = useRouter();

@@ -8,6 +8,8 @@ import {
   Text,
   Autocomplete,
   FileInput,
+  rem,
+  Flex,
 } from "@mantine/core";
 import { useState } from "react";
 import {
@@ -20,12 +22,16 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebase/firebase.config";
 import { useRouter } from "next/navigation";
-import { useParams } from "next/navigation";
+import { PiCurrencyDollarBold } from "react-icons/pi";
+import { ImUpload } from "react-icons/im";
 
 function randomNumber(max, min) {
   return String(Math.trunc(Math.random() * (max - min) + min));
 }
 export default function ProductModal({ params }) {
+  const dollarIcon = (
+    <PiCurrencyDollarBold style={{ width: rem(22), height: rem(22) }} />
+  );
   const router = useRouter();
   // const params = useParams();
   // console.log(params);
@@ -48,13 +54,13 @@ export default function ProductModal({ params }) {
     const docRef = await addDoc(productsCollectionRef, {
       title: title,
       body: body,
-      created_at: serverTimestamp(),
-      cover_photo: `https://picsum.photos/${randomNumber(3000, 2700)}/449`,
+      createdAt: serverTimestamp(),
+      price: price,
+      thumbnail: `https://picsum.photos/${randomNumber(3000, 2700)}/449`,
       user: {
         avatar: `https://www.gravatar.com/avatar/?d=robohash`,
         email: data?.email,
-        firstName: data?.firstName,
-        lastName: data?.lastName,
+        displayName: `${data.displayName}`,
       },
       category: category,
       userId: params,
@@ -62,7 +68,7 @@ export default function ProductModal({ params }) {
     await setDoc(
       doc(db, "Products", docRef.id),
       {
-        UUID: docRef.id,
+        uid: docRef.id,
       },
       { merge: true }
     );
@@ -77,8 +83,8 @@ export default function ProductModal({ params }) {
         size={"50rem"}
         centered
       >
-        <Text size="xl" fw={"bolder"}>
-          Write your blog post
+        <Text size="2rem" fw={"bolder"}>
+          PRODUCT INFO
         </Text>
         <TextInput
           data-autofocus
@@ -88,6 +94,18 @@ export default function ProductModal({ params }) {
           size="lg"
           onChange={(e) => setTitle(e.target.value)}
         ></TextInput>
+
+        <Textarea
+          size="lg"
+          radius="xs"
+          label="Description"
+          description=""
+          placeholder="Start writing about your product..."
+          autosize
+          minRows={2}
+          maxRows={6}
+          onChange={(e) => setBody(e.target.value)}
+        />
         <Autocomplete
           label="Category of your product"
           placeholder="Search"
@@ -99,38 +117,36 @@ export default function ProductModal({ params }) {
             "Clothing",
           ]}
           size="lg"
-          onChange={(e) => setCategory(e.target.value)}
-        />
-        <Textarea
-          size="xl"
-          radius="xs"
-          label="Description"
-          description=""
-          placeholder="Start writing about your product..."
-          autosize
-          minRows={2}
-          maxRows={6}
-          onChange={(e) => setBody(e.target.value)}
+          onOptionSubmit={(value) => setCategory(value)}
         />
         <TextInput
           data-autofocus
           label="Price of your product"
-          placeholder="Price here: $"
+          placeholder="Price here:"
           my="md"
           size="lg"
           onChange={(e) => setPrice(e.target.value)}
+          leftSection={dollarIcon}
+          leftSectionPointerEvents="none"
         ></TextInput>
-        <FileInput
-          variant="filled"
-          label="Upload Product Image"
-          withAsterisk
-          placeholder="Input placeholder"
-        />
+        <Flex direction="row" align={"center"} gap={"md"}>
+          <FileInput
+            size="lg"
+            variant="filled"
+            label="Upload product image"
+            withAsterisk
+            // placeholder="upload image"
+          >
+            {/* <Button bg={"#8B85C1"}>
+              <ImUpload size={"2rem"} />
+            </Button> */}
+          </FileInput>
+        </Flex>
         <Button onClick={handleProduct} mt={"md"} bg={"#8B85C1"}>
           Upload
         </Button>
       </Modal>
-      <Button onClick={open} bg={"#8B85C1"}>
+      <Button onClick={open} bg={"#3d348b"}>
         Upload a product
       </Button>
     </>

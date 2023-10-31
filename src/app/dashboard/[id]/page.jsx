@@ -1,13 +1,15 @@
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
-import { Center, Flex, Text, Paper } from "@mantine/core";
+import { Center, Flex, Text, Paper, Button } from "@mantine/core";
 import { db } from "../../../../firebase/firebase.config";
 import { doc, getDoc } from "firebase/firestore";
 import { useParams } from "next/navigation";
 import { useEffect } from "react";
 import { auth } from "../../../../firebase/firebase.config";
 import ProductModal from "../../../../components/NewProductModal";
+import Link from "next/link";
+
 import UserProductList from "../../../../components/UserProductList";
 
 // import UserPostList from "@/components/UserPostList";
@@ -31,7 +33,7 @@ export default function Dashboard() {
   }, []);
   return (
     <Flex w={"100%"} h={"100vh"} justify={"center"} align={"center"}>
-      {auth.currentUser && user ? (
+      {auth.currentUser !== null ? (
         <Flex w={"80%"} h={"80%"}>
           <Flex w={"33%"} h={"100%"} justify={"center"} align={"center"}>
             <Flex h={"55%"} w={"50%"} direction={"column"}>
@@ -52,10 +54,7 @@ export default function Dashboard() {
               <Center>
                 <Flex direction={"column"} m={"lg"}>
                   <Flex direction={"row"} justify={"center"} align={"center"}>
-                    <Text size="1.5rem">
-                      {user.firstName.toUpperCase()}{" "}
-                      {user.lastName.toUpperCase()}
-                    </Text>
+                    <Text size="1.5rem">{user.displayName}</Text>
                   </Flex>
                   <Flex mt={"1rem"}>{user.email}</Flex>
                 </Flex>
@@ -71,14 +70,24 @@ export default function Dashboard() {
                 <ProductModal params={params.id} />
               </Flex>
               <Flex w={"100%"} h={"100%"}>
-                {/* <UserProductList params={params.id} /> */}
+                <UserProductList params={params.id} />
               </Flex>
             </Flex>
           </Flex>
         </Flex>
       ) : (
-        <Flex>
-          <Text>You are not logged in!!!!</Text>
+        <Flex
+          justify={"center"}
+          direction={"column"}
+          align={"center"}
+          gap={"lg"}
+        >
+          <Text>You are not currently logged in!!</Text>
+          <Link href="/">
+            <Button bg={"#EEEEEE"} c={"#FB5404"}>
+              Go back to mainpage
+            </Button>
+          </Link>
         </Flex>
       )}
     </Flex>

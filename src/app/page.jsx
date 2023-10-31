@@ -57,6 +57,19 @@ export default function Home() {
             </Flex>
           </Flex>
         </Flex>
+        {/* <Flex justify={"center"}> */}
+        {/* cool colors:= #3FC1C9 c={"#3F72AF"} */}
+        <Text
+          size="4rem"
+          fw={800}
+          ta="center"
+          pt={"xl"}
+          variant="gradient"
+          gradient={{ from: "violet", to: "cyan", deg: 180 }}
+        >
+          Latest Products
+        </Text>
+        <hr class="h-1 w-2/3 mx-auto rounded my-8 bg-gray-200 border-0 dark:bg-gray-700" />
         <Products />
       </Container>
       {/* <Footer /> */}

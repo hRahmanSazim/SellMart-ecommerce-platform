@@ -1,5 +1,5 @@
 // import Image from "next/image";
-import Footer from "../../components/Footer";
+// import Footer from "../../components/Footer";
 import Products from "./products/page";
 import Header from "../../components/Header";
 import HomeCarousel from "../../components/HomeCarousel";
@@ -69,10 +69,9 @@ export default function Home() {
         >
           Latest Products
         </Text>
-        <hr class="h-1 w-2/3 mx-auto rounded my-8 bg-gray-200 border-0 dark:bg-gray-700" />
+        <hr className="h-1 w-2/3 mx-auto rounded my-8 bg-gray-200 border-0 dark:bg-gray-700" />
         <Products />
       </Container>
-      {/* <Footer /> */}
     </>
   );
 }

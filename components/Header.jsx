@@ -1,23 +1,52 @@
 "use client";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Autocomplete, Drawer, Button, Flex, Text, Menu } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { auth } from "../firebase/firebase.config";
+import { auth, db } from "../firebase/firebase.config";
 import { SignOut } from "../firebase/auth/signout";
 import { onAuthStateChanged } from "firebase/auth";
-import { BsShop } from "react-icons/bs";
 import { MdShoppingCartCheckout } from "react-icons/md";
 import { TbShoppingBagSearch } from "react-icons/tb";
 import Dashboard from "./Dashboard";
+import { collection, getDocs } from "firebase/firestore";
+import { useRouter } from "next/navigation";
 
 const Header = () => {
+  const router = useRouter();
   const [authUser, setAuthUser] = useState(null);
-  const [searchItem, setSearchItem] = useState();
+  const productsRef = collection(db, "Products");
+  const [productTitles, setProductTitles] = useState();
+  const [arrayWithUID, setArrayWithUID] = useState();
   onAuthStateChanged(auth, (user) => {
     setAuthUser(user);
   });
+  useEffect(() => {
+    const getProducts = async () => {
+      const querySnapshot = await getDocs(productsRef);
+      const products = [];
+      const titles = [];
+      const Uids = [];
+      querySnapshot.forEach((doc) => {
+        products.push(doc.data());
+        titles.push(doc.data().title);
+        Uids.push(doc.data().uid);
+      });
+      setProductTitles(titles);
+      const titleWithUid = {};
+      titles.forEach((element, index) => {
+        titleWithUid[element] = Uids[index];
+      });
+      setArrayWithUID(titleWithUid);
+    };
+    getProducts();
+  }, []);
+
+  const handleSearch = (value) => {
+    const productRoute = arrayWithUID[value];
+    router.push(`/products/${productRoute}`);
+  };
   return (
     <Flex
       h={"15%"}
@@ -29,9 +58,9 @@ const Header = () => {
       align={"center"}
     >
       <Flex w={"30%"} pl={"1rem"} align={"center"}>
-        <Flex pr={"xl"}>
+        {/* <Flex pr={"xl"}>
           <Burger />
-        </Flex>
+        </Flex> */}
         {/* <Image */}
         {/* // src={"https://i.ibb.co/yBcwJVk/logo1.png"} */}
         {/* // // width={300}
@@ -56,9 +85,11 @@ const Header = () => {
           <Autocomplete
             label=""
             placeholder="Search for products"
-            data={["Chair", "Table", "Shirt", "Jeans"]}
+            data={productTitles}
             // size="lg"
             w={"65%"}
+            limit={10}
+            onOptionSubmit={(value) => handleSearch(value)}
             // onChange={(val) => {
             //   setSearchItem(val);
             // }}

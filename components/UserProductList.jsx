@@ -10,19 +10,13 @@ import DeleteProduct from "./DeleteProduct";
 
 export default function UserProductList({ params }) {
   const productsRef = collection(db, "Products");
-  // console.log(localStorage.getItem("myUID"));
-  // console.log(params);
   const [res, setRes] = useState([]);
   const q = query(productsRef, where("userId", "==", params));
   useEffect(() => {
     const getProducts = async () => {
       const querySnapshot = await getDocs(q);
-      // console.log(querySnapshot);
-      // const posts = querySnapshot.docs;
       const products = [];
       querySnapshot.forEach((doc) => {
-        //   // let obj = {doc.id:doc.data()}
-        //   // doc.data() is never undefined for query doc snapshots
         products.push({
           id: doc.id,
           ...doc.data(),
@@ -40,38 +34,46 @@ export default function UserProductList({ params }) {
           <Flex mt={"sm"} direction={"column"} w={"100%"}>
             {res.map((obj) => (
               <ul key={obj.id}>
-                <Flex direction={"row"} h={"150px"} mb={"1rem"} gap={"lg"}>
-                  <Flex w={"150px"}>
-                    <Image
-                      src={obj.thumbnail}
-                      alt="post_photo"
-                      width={150}
-                      height={100}
-                    />
-                  </Flex>
-                  <Flex direction={"column"} justify={"space-between"}>
-                    <Flex direction={"row"} justify={"space-between"}>
-                      <Link href={`/products/${obj.id}`}>
-                        <Text size="1.5rem" c={"#240046"}>
-                          {obj.title}
-                        </Text>
-                      </Link>
-                      <Flex direction={"row"} gap={"xs"}>
-                        <EditProduct obj={obj} />
-                        <DeleteProduct obj={obj} />
-                      </Flex>
+                <Flex
+                  direction={"row"}
+                  h={"150px"}
+                  mb={"1rem"}
+                  justify={"space-between"}
+                  bg={"#F8F6F4"}
+                >
+                  <Flex gap={"xs"}>
+                    <Flex w={"150px"}>
+                      <Image
+                        src={obj.thumbnail}
+                        alt="post_photo"
+                        width={150}
+                        height={100}
+                      />
                     </Flex>
                     <Flex direction={"column"} justify={"space-between"}>
-                      <Text w={"500px"} lineClamp={3}>
-                        {obj.body}
-                      </Text>
-                      <Text c={"#ff5400"}>
-                        {"$"}
-                        {obj.price}
-                      </Text>
-                      <Text c={"#219ebc"} pt={"1rem"}>
-                        Posted: {obj.createdAt}
-                      </Text>
+                      <Flex direction={"row"} justify={"space-between"}>
+                        <Link href={`/products/${obj.id}`}>
+                          <Text size="2rem" c={"#240046"}>
+                            {obj.title}
+                          </Text>
+                        </Link>
+                      </Flex>
+                      <Flex direction={"column"} justify={"space-between"}>
+                        <Text w={"500px"} lineClamp={3}>
+                          {obj.body}
+                        </Text>
+                        <Text c={"#ff5400"}>
+                          {"$"}
+                          {obj.price}
+                        </Text>
+                        <Text c={"#219ebc"} pt={"1rem"}>
+                          Posted: {obj.createdAt}
+                        </Text>
+                      </Flex>
+                    </Flex>
+                    <Flex direction={"row"} gap={"xs"}>
+                      <EditProduct obj={obj} />
+                      <DeleteProduct obj={obj} />
                     </Flex>
                   </Flex>
                 </Flex>

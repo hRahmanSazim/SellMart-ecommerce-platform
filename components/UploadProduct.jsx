@@ -7,7 +7,6 @@ import {
   TextInput,
   Text,
   Autocomplete,
-  FileInput,
   rem,
   Flex,
 } from "@mantine/core";
@@ -23,56 +22,74 @@ import {
 import { db } from "../firebase/firebase.config";
 import { useRouter } from "next/navigation";
 import { PiCurrencyDollarBold } from "react-icons/pi";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { storage } from "../firebase/firebase.config";
+import { v4 as uuidv4 } from "uuid";
 import { ImUpload } from "react-icons/im";
 
-function randomNumber(max, min) {
-  return String(Math.trunc(Math.random() * (max - min) + min));
-}
-export default function ProductModal({ params }) {
+export default function UploadProduct({ params }) {
   const dollarIcon = (
     <PiCurrencyDollarBold style={{ width: rem(22), height: rem(22) }} />
   );
   const router = useRouter();
-  // const params = useParams();
-  // console.log(params);
   const [opened, { open, close }] = useDisclosure(false);
-  //   const [coverphoto, setCoverPhoto] = useState("");
   const [title, setTitle] = useState("");
+  const [uid, setUid] = useState();
   const [category, setCategory] = useState();
   const [price, setPrice] = useState(0);
   const [body, setBody] = useState("");
   const productsCollectionRef = collection(db, "Products");
+  const [imageUpload, setImageUpload] = useState(null);
+  const [imageUrl, setImageUrl] = useState();
+
   const handleProduct = async (event) => {
-    close();
     event.preventDefault();
-    createProduct();
+    close();
+    await uploadImage();
+    await createProduct();
+  };
+  const uploadImage = async () => {
+    if (imageUpload != null) {
+      const imageRef = ref(
+        storage,
+        `products/${params}/${imageUpload.name + uuidv4().slice(4, 8)}`
+      );
+      uploadBytes(imageRef, imageUpload).then((snapshot) => {
+        getDownloadURL(snapshot.ref).then((url) => {
+          setImageUrl(url);
+        });
+      });
+    }
   };
   const createProduct = async () => {
     const userDocRef = doc(db, "users", params);
     const docSnap = await getDoc(userDocRef);
     const data = docSnap.data();
-    const docRef = await addDoc(productsCollectionRef, {
-      title: title,
-      body: body,
-      createdAt: serverTimestamp(),
-      price: price,
-      thumbnail: `https://picsum.photos/${randomNumber(3000, 2700)}/449`,
-      user: {
-        avatar: `https://www.gravatar.com/avatar/?d=robohash`,
-        email: data?.email,
-        displayName: `${data.displayName}`,
-      },
-      category: category,
-      userId: params,
-    });
-    await setDoc(
-      doc(db, "Products", docRef.id),
-      {
-        uid: docRef.id,
-      },
-      { merge: true }
-    );
-    router.refresh();
+    if (imageUrl != null) {
+      const docRef = await addDoc(productsCollectionRef, {
+        title: title,
+        body: body,
+        createdAt: serverTimestamp(),
+        price: price,
+        user: {
+          avatar: `https://www.gravatar.com/avatar/?d=robohash`,
+          email: data.email,
+          displayName: data.displayName,
+        },
+        category: category,
+        userId: params,
+        thumbnail: imageUrl,
+      });
+      await setDoc(
+        doc(db, "Products", docRef.id),
+        {
+          uid: docRef.id,
+        },
+        { merge: true }
+      );
+      setUid(docRef.id);
+      router.refresh();
+    }
   };
   return (
     <>
@@ -94,6 +111,16 @@ export default function ProductModal({ params }) {
           size="lg"
           onChange={(e) => setTitle(e.target.value)}
         ></TextInput>
+        <Flex direction="row" align={"center"} gap={"md"} pb={"md"}>
+          <label htmlFor="input">Upload product thumbnail:</label>
+          <input
+            type="file"
+            onChange={(event) => {
+              setImageUpload(event.target.files[0]);
+            }}
+            className="input"
+          />
+        </Flex>
 
         <Textarea
           size="lg"
@@ -129,25 +156,14 @@ export default function ProductModal({ params }) {
           leftSection={dollarIcon}
           leftSectionPointerEvents="none"
         ></TextInput>
-        <Flex direction="row" align={"center"} gap={"md"}>
-          <FileInput
-            size="lg"
-            variant="filled"
-            label="Upload product image"
-            withAsterisk
-            // placeholder="upload image"
-          >
-            {/* <Button bg={"#8B85C1"}>
-              <ImUpload size={"2rem"} />
-            </Button> */}
-          </FileInput>
-        </Flex>
+
         <Button onClick={handleProduct} mt={"md"} bg={"#8B85C1"}>
           Upload
         </Button>
       </Modal>
       <Button onClick={open} bg={"#3d348b"}>
-        Upload a product
+        <Text pr={"xs"}>Upload a product </Text>
+        <ImUpload size={"1.3rem"} />
       </Button>
     </>
   );

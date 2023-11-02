@@ -3,7 +3,7 @@ import { TextInput, Button } from "@mantine/core";
 import { auth, db } from "../firebase/firebase.config";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 
-const SendMessage = ({ messageDocID }) => {
+const SendMessage = ({ chatID }) => {
   const [input, setInput] = useState("");
   const sendMessage = async (e) => {
     if (auth.currentUser === null) {
@@ -18,7 +18,7 @@ const SendMessage = ({ messageDocID }) => {
       return;
     }
     const { uid, displayName } = auth.currentUser;
-    await addDoc(collection(db, "Messages", messageDocID, "Conversation"), {
+    await addDoc(collection(db, "chat", chatID, "messages"), {
       message: input,
       name: displayName,
       uid,

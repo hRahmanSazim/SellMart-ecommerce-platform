@@ -35,7 +35,6 @@ const Products = () => {
       const items = [];
       querySnapshot.forEach((doc) => {
         items.push(doc.data());
-        // console.log(doc.data());
       });
       setProducts(items);
     });

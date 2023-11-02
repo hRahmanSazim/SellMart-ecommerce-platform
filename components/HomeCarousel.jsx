@@ -4,16 +4,36 @@
 import { Image } from "@mantine/core";
 import { Carousel } from "@mantine/carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { db } from "../firebase/firebase.config";
+import { getDocs, getDoc, collection, doc, query } from "firebase/firestore";
+import { useEffect, useState } from "react";
 
 const HomeCarousel = () => {
-  const images = [
-    "https://picsum.photos/200/300",
-    "https://picsum.photos/400/500",
-    "https://picsum.photos/900/1000",
-    "https://picsum.photos/1100/2000",
-    "https://picsum.photos/1300/2100",
-    "https://picsum.photos/1300/2200",
-  ];
+  const [images, setImages] = useState();
+  const [slides, setSlides] = useState();
+  useEffect(() => {
+    const getProductImages = async () => {
+      const q = query(collection(db, "Products"));
+
+      const querySnapshot = await getDocs(q);
+      const res = [];
+      querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        // console.log(doc.id, " => ", doc.data());
+        res.push(doc.data().thumbnail);
+      });
+      setImages(res);
+    };
+    getProductImages();
+  }, []);
+  // const images = [
+  //   "https://picsum.photos/200/300",
+  //   "https://picsum.photos/400/500",
+  //   "https://picsum.photos/900/1000",
+  //   "https://picsum.photos/1100/2000",
+  //   "https://picsum.photos/1300/2100",
+  //   "https://picsum.photos/1300/2200",
+  // ];
   // return (
   //   <Carousel
   //     height="100%"
@@ -53,11 +73,16 @@ const HomeCarousel = () => {
   //     </Carousel.Slide>
   //   </Carousel>
   // );
-  const slides = images.map((url) => (
-    <Carousel.Slide key={url}>
-      <Image src={url} width={1080} height={400} alt="test" />
-    </Carousel.Slide>
-  ));
+  useEffect(() => {
+    if (images) {
+      const slides = images.map((url) => (
+        <Carousel.Slide key={url}>
+          <Image src={url} width={1080} height={400} alt="test" />
+        </Carousel.Slide>
+      ));
+      setSlides(slides);
+    }
+  }, [images]);
 
   return (
     <Carousel

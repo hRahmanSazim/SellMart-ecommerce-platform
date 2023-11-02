@@ -1,16 +1,10 @@
 "use client";
 import signUp from "../../../firebase/auth/signup";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Flex, Paper, Text, Button, TextInput } from "@mantine/core";
-import {
-  collection,
-  addDoc,
-  doc,
-  setDoc,
-  serverTimestamp,
-} from "firebase/firestore";
+import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../../../firebase/firebase.config";
 import GoogleSignIn from "../../../components/GoogleSignIn";
 import { auth } from "../../../firebase/firebase.config";
@@ -26,88 +20,34 @@ export default function Signup() {
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const usersCollectionRef = collection(db, "users");
+  // const usersCollectionRef = collection(db, "users");
   const router = useRouter();
   const handleForm = async (event) => {
     try {
       event.preventDefault();
-      // const { result } = await signUp(email, password, fullname);
+      const fullname = `${firstName} ${lastName}`;
       signUp(email, password, fullname);
-      createUser();
+      // const { result } = await signUp(email, password, fullname);
     } catch (error) {
       alert(error);
     }
   };
-  const createUser = async () => {
-    const fullname = `${firstName} ${lastName}`;
+  useEffect(() => {
+    if (auth.currentUser) {
+      const createUser = async () => {
+        await setDoc(doc(db, "users", auth.currentUser.uid), {
+          displayName: auth.currentUser.displayName,
+          email: auth.currentUser.email,
+          uid: auth.currentUser.uid,
+          avatar: `https://www.gravatar.com/avatar/${auth.currentUser.uid}?d=robohash`,
+          createdAt: serverTimestamp(),
+        });
+      };
+      createUser();
+      router.push("/");
+    }
+  }, []);
 
-    const docRef = await addDoc(usersCollectionRef, {
-      displayName: fullname,
-      email: email,
-      uid: "",
-      avatar: "",
-      createdAt: "",
-    });
-
-    await setDoc(
-      doc(db, "users", docRef.id),
-      {
-        uid: docRef.id,
-        avatar: `https://www.gravatar.com/avatar/${docRef.id}?d=robohash`,
-        createdAt: serverTimestamp(),
-      },
-      { merge: true }
-    );
-    // router.refresh();
-    router.push("/");
-  };
-
-  // user
-  //   .updateProfile({
-  //     displayName: displayName,
-  //   })
-  //   .then(() => {
-  //     // Update successful.
-  //     // You can also save the user's other details to your database at this point.
-  //   })
-  //   .catch((error) => {
-  //     // An error occurred.
-  //   });
-
-  // const user = auth.currentUser;
-  // const displayName = `${firstName} ${lastName}`;
-  // user
-  //   .updateProfile({
-  //     displayName: displayName,
-  //   })
-  //   .then(() => {
-  //     // Update successful.
-  //     // You can also save the user's other details to your database at this point.
-  //   })
-  //   .catch((error) => {
-  //     // An error occurred.
-  //   });
-  // const [users, setUsers] = useState([]);
-  // useEffect(() => {
-  //   const getUsers = async () => {
-  //     const data = await getDocs(usersCollectionRef);
-
-  //     setUsers(data.docs.map((doc) => ({ ...doc.data() })));
-  //   };
-  //   getUsers();
-  // }, []);
-
-  // updateProfile(auth.currentUser, {
-  //   displayName: displayName,
-  // })
-  //   .then(() => {
-  //     // Profile updated!
-  //     // ...
-  //   })
-  //   .catch((error) => {
-  //     // An error occurred
-  //     // ...
-  //   });
   return (
     <Flex mih={"100%"} justify="center" align="center" direction="row">
       <Paper shadow={"xl"} radius="lg" withBorder w={"auto"} p={"6rem"}>

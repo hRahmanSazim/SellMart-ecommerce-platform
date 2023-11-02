@@ -1,7 +1,7 @@
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../firebase.config";
 
-export default function signUp(email, password, fullname) {
+export default async function signUp(email, password, fullname) {
   // let result = null;
   createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {

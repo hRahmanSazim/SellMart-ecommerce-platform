@@ -13,7 +13,6 @@ import { FileInput, Button } from "@mantine/core";
 import { useParams } from "next/navigation";
 
 function ImageUpload({ uid }) {
-  console.log(uid);
   const params = useParams();
   const [imageUpload, setImageUpload] = useState(null);
   const [imageUrls, setImageUrls] = useState([]);
@@ -41,8 +40,6 @@ function ImageUpload({ uid }) {
       });
     });
   }, []);
-  //   console.log(imageUrls);
-  //   console.log(imageUpload);
   return (
     <>
       {/* <FileInput

@@ -103,10 +103,8 @@ const Header = () => {
         <nav>
           <ul className="flex space-x-4 pr-4">
             <li>
-              {authUser ? (
-                <>
-                  <LogoutMenu />
-                </>
+              {authUser != null ? (
+                <LogoutMenu />
               ) : (
                 <Link href="/signup" className="text-black hover:text-gray-700">
                   Login/SignUp

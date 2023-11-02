@@ -16,16 +16,17 @@ const Product = ({ product }) => {
           className="w-full h-80 object-cover"
         />
         <Title order={3}>
-          {" "}
           <Text c={"#7209b7"} fw={"bolder"} fz={"xl"}>
             {product.title}
-          </Text>{" "}
+          </Text>
         </Title>
         <Text c={"#0a9396"}>{product.body}</Text>
         <Text c={"#0077b6"}>Category: {product.category}</Text>
         <Flex direction="row" align="center" justify="space-between">
           <Text c={"#9a031e"}>$ {product.price}</Text>
-          <Button bg={"#3282B8"}>Buy Now</Button>
+          <Button bg={"#3282B8"} c={"teal"}>
+            See Details
+          </Button>
         </Flex>
       </Link>
     </Flex>

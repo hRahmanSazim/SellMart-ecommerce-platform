@@ -13,19 +13,17 @@ import {
 import { auth } from "../firebase/firebase.config";
 import { Flex, Text } from "@mantine/core";
 
-const Chat = ({ messageDocID }) => {
+const Chat = ({ chatID }) => {
   const [messages, setMessages] = useState([]);
 
   // const scroll = useRef();
   useEffect(() => {
-    console.log(messageDocID);
     if (auth.currentUser === null) {
       alert("You cannot chat without logging in!!");
       return;
     }
     const q = query(
-      collection(db, "Messages", messageDocID, "Conversation"),
-      // where("message", "!=", "00&$00"),
+      collection(db, "chat", chatID, "messages"),
       orderBy("createdAt")
     );
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
@@ -46,7 +44,7 @@ const Chat = ({ messageDocID }) => {
             messages.map((message) => (
               <Message key={message.id} message={message} />
             ))}
-          <SendMessage messageDocID={messageDocID} />
+          <SendMessage chatID={chatID} />
         </>
       ) : (
         <Flex justify={"center"}>

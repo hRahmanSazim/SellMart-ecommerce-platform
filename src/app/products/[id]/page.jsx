@@ -94,7 +94,7 @@ const Product = () => {
               alt="thumbnail"
             ></Image>
           </Flex>
-          <Flex w={"100%"} h={"15%"} justify={"space-between"} py={"md"}>
+          {/* <Flex w={"100%"} h={"15%"} justify={"space-between"} py={"md"}>
             <Flex w={"15%"} bg={"cyan"}>
               t
             </Flex>
@@ -107,7 +107,7 @@ const Product = () => {
             <Flex w={"15%"} bg={"orange"}>
               t
             </Flex>
-          </Flex>
+          </Flex> */}
         </Flex>
         <Flex w={"30%"} direction={"column"} gap={"xl"}>
           <Text

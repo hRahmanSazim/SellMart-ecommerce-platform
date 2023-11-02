@@ -1,15 +1,16 @@
 // import Image from "next/image";
-// import Footer from "../../components/Footer";
+import Footer from "../../components/Footer";
 import Products from "./products/page";
 import Header from "../../components/Header";
 import HomeCarousel from "../../components/HomeCarousel";
 import { Flex, Container, Text } from "@mantine/core";
+import Link from "next/link";
 
 export default function Home() {
   return (
     <>
       <Header />
-      <Container fluid className="min-h-screen">
+      <Container fluid className="min-h-screen" pb={"xl"}>
         <Flex h={"20%"}>
           <HomeCarousel />
         </Flex>
@@ -21,7 +22,9 @@ export default function Home() {
               align={"center"}
               className="border-8"
             >
-              <Text>ELECTRONICS</Text>
+              <Link href={"/products/category/ELECTRONICS"}>
+                <Text>ELECTRONICS</Text>
+              </Link>
             </Flex>
             <Flex
               w={"15%"}
@@ -29,7 +32,9 @@ export default function Home() {
               align={"center"}
               className="border-8"
             >
-              <Text>FURNITURE</Text>
+              <Link href={"/products/category/FURNITURE"}>
+                <Text>FURNITURE</Text>
+              </Link>
             </Flex>
             <Flex
               w={"15%"}
@@ -37,7 +42,9 @@ export default function Home() {
               align={"center"}
               className="border-8"
             >
-              <Text>TOYS</Text>
+              <Link href={"/products/category/TOYS"}>
+                <Text>TOYS</Text>
+              </Link>
             </Flex>
             <Flex
               w={"15%"}
@@ -45,7 +52,9 @@ export default function Home() {
               align={"center"}
               className="border-8"
             >
-              <Text>HOME APPLIANCES</Text>
+              <Link href={"/products/category/HOME APPLIANCES"}>
+                <Text>HOME APPLIANCES</Text>
+              </Link>
             </Flex>
             <Flex
               w={"15%"}
@@ -72,6 +81,7 @@ export default function Home() {
         <hr className="h-1 w-2/3 mx-auto rounded my-8 bg-gray-200 border-0 dark:bg-gray-700" />
         <Products />
       </Container>
+      <Footer />
     </>
   );
 }

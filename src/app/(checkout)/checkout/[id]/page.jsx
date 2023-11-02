@@ -10,7 +10,7 @@ import { db } from "../../../../../firebase/firebase.config";
 const Checkout = () => {
   const params = useParams();
   const [product, setProduct] = useState(null);
-  const [randomNumber, setRandomNumber] = useState(null);
+  // const [randomNumber, setRandomNumber] = useState(null);
   useEffect(() => {
     const getProduct = async () => {
       const docRef = doc(db, "Products", params.id);
@@ -23,10 +23,33 @@ const Checkout = () => {
     };
     getProduct();
   }, []);
-  function getRandomNumber(min, max) {
-    setRandomNumber(Math.floor(Math.random() * (max - min + 1)) + min);
-    return randomNumber;
-  }
+  // function getRandomNumber(min, max) {
+  //   setRandomNumber(Math.floor(Math.random() * (max - min + 1)) + min);
+  //   return randomNumber;
+  // }
+  const ImageContainer = () => {
+    return (
+      <div className="container">
+        <img src={product?.thumbnail} alt="Your Image" />
+        <style jsx>{`
+          .container {
+            width: 1000px; /* Set the width and height of your container */
+            height: 200px;
+            overflow: hidden; /* Hide any content that goes outside the container */
+            position: relative; /* Create a relative positioning context for the image */
+          }
+
+          .container img {
+            width: 100%; /* Make the image 100% of the container's width */
+            height: auto; /* Maintain the image's aspect ratio */
+            position: absolute; /* Position the image absolutely within the container */
+            top: 0; /* Position it at the top of the container */
+            left: 0; /* Position it at the left of the container */
+          }
+        `}</style>
+      </div>
+    );
+  };
   return (
     <Flex direction={"column"}>
       <Flex justify={"flex-end"} gap={"lg"} pr={"md"}>
@@ -82,61 +105,66 @@ const Checkout = () => {
                 align={"center"}
                 pl={"lg"}
               >
-                <Text c={"#333333"} size="2rem">
+                <Text c={"#3A1078"} size="2rem">
                   SUMMARY
                 </Text>
               </Flex>
-              {randomNumber != null &&
-                product !=
-                  null(
-                    <Flex
-                      w={"100%"}
-                      h={"74%"}
-                      direction={"column"}
-                      justify={"center"}
-                      gap={"lg"}
-                    >
-                      <Text c={"teal"}>
-                        SUBTOTAL:$
-                        <Text>{product?.price}</Text>
-                      </Text>
-                      <Text>SHIPPING AND HANDLING:$ {randomNumber}</Text>
-                      <Text>
-                        TAXES: $ {(product?.price * randomNumber) / 100}
-                      </Text>
-                      <Flex justify={"space-around"}>
-                        <Text size="2rem">TOTAL: </Text>
-                        <Text size="2rem" c={"#FB5404"}>
-                          $
-                          {product?.price +
-                            randomNumber +
-                            (product?.price * randomNumber) / 100}
-                        </Text>
-                      </Flex>
-                    </Flex>
-                  )}
+
+              <Flex
+                w={"100%"}
+                h={"74%"}
+                direction={"column"}
+                justify={"center"}
+                gap={"lg"}
+                pl={"md"}
+              >
+                <Flex direction={"row"} w={"100%"} h={"10%"}>
+                  <Text>SUBTOTAL: ${product?.price}</Text>
+                </Flex>
+                <Text>SHIPPING AND HANDLING: $35</Text>
+                <Text>TAXES(13%): ${(product?.price * 13) / 100}</Text>
+                <Flex justify={"space-evenly"}>
+                  <Text size="2rem" c={"#3795BD"}>
+                    TOTAL:{" "}
+                  </Text>
+                  <Text size="2rem" c={"#FB5404"}>
+                    $
+                    {Number(product?.price) +
+                      35 +
+                      Number((product?.price * 13) / 100)}
+                  </Text>
+                </Flex>
+              </Flex>
             </Flex>
 
             <Flex w={"100%"} h="30%" bg={"#FAF9F6"}>
               <Flex
                 w={"100%"}
                 h={"26%"}
-                bg={"#EEEEEE"}
-                align={"center"}
+                // bg={"#EEEEEE"}
+                // align={"center"}
                 pl={"lg"}
+                // justify={"center"}
+                direction={"column"}
               >
-                <Text c={"#333333"} size="2rem">
-                  IN YOUR CART <Text c={"grape"}>(1)</Text>
+                <Text c={"#005B41"} size="2rem" td={"underline"}>
+                  IN YOUR CART
                 </Text>
+                <Text size="2rem" py={"md"}>
+                  {product.title}
+                </Text>
+                Category: {product.category}
               </Flex>
-            </Flex>
-            <Flex direction={"row"}>
-              <Image
+              <Flex direction={"row"} h={"10%"} w={"40%"}>
+                {/* <Image
                 src={product?.thumbnail}
                 alt="product_thumbnail"
-                width={500}
-                height={500}
-              ></Image>
+                width="100%"
+                height="100%"
+                objectFit="contain"
+              ></Image> */}
+                <ImageContainer />
+              </Flex>
             </Flex>
           </Flex>
         </Flex>

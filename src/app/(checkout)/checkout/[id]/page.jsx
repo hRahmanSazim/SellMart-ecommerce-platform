@@ -122,16 +122,20 @@ const Checkout = () => {
                   <Text>SUBTOTAL: ${product?.price}</Text>
                 </Flex>
                 <Text>SHIPPING AND HANDLING: $35</Text>
-                <Text>TAXES(13%): ${(product?.price * 13) / 100}</Text>
+                <Text>
+                  TAXES(13%): ${((product?.price * 13) / 100).toFixed(2)}
+                </Text>
                 <Flex justify={"space-evenly"}>
                   <Text size="2rem" c={"#3795BD"}>
                     TOTAL:{" "}
                   </Text>
                   <Text size="2rem" c={"#FB5404"}>
                     $
-                    {Number(product?.price) +
+                    {(
+                      Number(product?.price) +
                       35 +
-                      Number((product?.price * 13) / 100)}
+                      Number((product?.price * 13) / 100)
+                    ).toFixed(2)}
                   </Text>
                 </Flex>
               </Flex>
@@ -151,9 +155,9 @@ const Checkout = () => {
                   IN YOUR CART
                 </Text>
                 <Text size="2rem" py={"md"}>
-                  {product.title}
+                  {product?.title}
                 </Text>
-                Category: {product.category}
+                Category: {product?.category}
               </Flex>
               <Flex direction={"row"} h={"10%"} w={"40%"}>
                 {/* <Image

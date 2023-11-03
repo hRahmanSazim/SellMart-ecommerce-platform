@@ -140,7 +140,7 @@ export default function UploadProduct({ params }) {
             "Electronics",
             "Furniture",
             "Toys",
-            "Home Appliances",
+            "Home_Appliances",
             "Clothing",
           ]}
           size="lg"

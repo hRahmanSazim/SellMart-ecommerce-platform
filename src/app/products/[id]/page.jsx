@@ -118,12 +118,20 @@ const Product = () => {
             Product Details:{" "}
           </Text>
           <Text size="3rem">{product?.body} </Text>
-          <Text>Category: {product?.category}</Text>
-          <Text>Title: {product?.title}</Text>
+          <Text size="1.3rem" c={"cyan"}>
+            Category: {product?.category}
+          </Text>
+          <Text size="1.3rem" c={"teal"}>
+            Title: {product?.title}
+          </Text>
           {/* <Text>Reviews:  </Text> */}
-          <Text>Price: ${product?.price} </Text>
+          <Text size="1.3rem" c={"maroon"}>
+            Price: ${product?.price}{" "}
+          </Text>
           <Link href={`/checkout/${params.id}`}>
-            <Button bg={"grape"}>Buy this now!</Button>
+            <Button bg={"grape"} size="xl">
+              Buy this now!
+            </Button>
           </Link>
           {/* <Text>Quantity: </Text> */}
         </Flex>
@@ -132,13 +140,13 @@ const Product = () => {
           direction={"column"}
           px={"xl"}
           bg={"#FAF9F6"}
-          justify={"center"}
+          justify={"flex-start"}
         >
-          <Flex direction={"column"} justify={"flex-start"}>
+          <Flex direction={"column"} justify={"flex-start"} gap={"lg"}>
             <Flex direction={"row"}></Flex>
             <Text
-              size="2rem"
-              pb={"xl"}
+              size="3rem"
+              pb={"lg"}
               variant="gradient"
               gradient={{ from: "blue", to: "red", deg: 180 }}
             >
@@ -147,18 +155,18 @@ const Product = () => {
             <Image
               src={product?.user.avatar}
               width={100}
-              height={120}
+              height={100}
               alt="seller_image"
               style={{
                 objectFit: "cover",
-                borderRadius: "100%",
+                borderRadius: "50%",
               }}
             />
-            <Text>
+            <Text size="1.5rem">
               {" "}
               Name: <Text c={"#6a994e"}>{product?.user.displayName}</Text>
             </Text>
-            <Text>
+            <Text size="1.5rem">
               Time used:
               <Text c={"#00b4d8"}>
                 {daysUsed} {day} {hoursUsed} {hour}

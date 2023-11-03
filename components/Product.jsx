@@ -5,7 +5,7 @@ import Image from "next/image";
 
 const Product = ({ product }) => {
   return (
-    <Flex direction="column" h={"100%"} bg={"#f5f3f4"}>
+    <Flex direction="column" h={"100%"}>
       <Link style={{ color: "black" }} href={`/products/${product.uid}`}>
         <Image
           // objectFit="contain"
@@ -24,9 +24,7 @@ const Product = ({ product }) => {
         <Text c={"#0077b6"}>Category: {product.category}</Text>
         <Flex direction="row" align="center" justify="space-between">
           <Text c={"#9a031e"}>$ {product.price}</Text>
-          <Button bg={"#3282B8"} c={"teal"}>
-            See Details
-          </Button>
+          <Button bg={"#0a9396"}>See Details</Button>
         </Flex>
       </Link>
     </Flex>

@@ -157,7 +157,7 @@ export default function ChatModal({ productID }) {
         )}
       </Modal>
 
-      <Button bg={"maroon"} onClick={handleOpen}>
+      <Button bg={"maroon"} onClick={handleOpen} size="lg">
         Chat with the owner
       </Button>
     </>

@@ -57,7 +57,7 @@ function Footer() {
       <div className="container mx-auto flex flex-col md:flex-row items-center justify-between px-4 md:px-0">
         <div className="md:max-w-2xl">
           <p className="text-lg font-semibold text-gray-600 dark:text-dark-1 text-center md:text-left">
-            Ecommerce platfrom to sell any and every used product!
+            Ecommerce platform to empower your retail adventures.
           </p>
         </div>
         <div className="flex flex-wrap justify-center md:justify-end space-x-4 mt-4 md:mt-0">

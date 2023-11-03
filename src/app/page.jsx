@@ -22,7 +22,7 @@ export default function Home() {
               align={"center"}
               className="border-8"
             >
-              <Link href={"/products/category/ELECTRONICS"}>
+              <Link href={"/products/category/Electronics"}>
                 <Text>ELECTRONICS</Text>
               </Link>
             </Flex>
@@ -32,7 +32,7 @@ export default function Home() {
               align={"center"}
               className="border-8"
             >
-              <Link href={"/products/category/FURNITURE"}>
+              <Link href={"/products/category/Furniture"}>
                 <Text>FURNITURE</Text>
               </Link>
             </Flex>
@@ -42,7 +42,7 @@ export default function Home() {
               align={"center"}
               className="border-8"
             >
-              <Link href={"/products/category/TOYS"}>
+              <Link href={"/products/category/Toys"}>
                 <Text>TOYS</Text>
               </Link>
             </Flex>
@@ -52,7 +52,7 @@ export default function Home() {
               align={"center"}
               className="border-8"
             >
-              <Link href={"/products/category/HOME APPLIANCES"}>
+              <Link href={"/products/category/Home_Appliances"}>
                 <Text>HOME APPLIANCES</Text>
               </Link>
             </Flex>

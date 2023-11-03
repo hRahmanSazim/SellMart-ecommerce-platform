@@ -132,7 +132,7 @@ export default function CheckChatModal({ productID }) {
             // )} */}
       </Modal>
 
-      <Button bg={"maroon"} onClick={handleOpen}>
+      <Button bg={"maroon"} onClick={handleOpen} size="lg">
         Check Messages
       </Button>
     </>
